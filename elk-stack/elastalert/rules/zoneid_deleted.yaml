@@ -1,0 +1,15 @@
+description: Detects the deletion of the "Zone.Identifier" ADS. Attackers can leverage
+  this in order to bypass security restrictions that make use of the ADS such as Microsoft
+  Office apps.
+filter:
+- query:
+    query_string:
+      query: TargetFilename:*\:Zone.Identifier
+index: 'winlogbeat-*'
+name: ADS Zone.Identifier Deleted
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

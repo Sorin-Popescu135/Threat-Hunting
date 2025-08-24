@@ -1,0 +1,16 @@
+description: Detects the creation of WebDAV temporary files with potentially suspicious
+  extensions
+filter:
+- query:
+    query_string:
+      query: TargetFilename:*\\AppData\\Local\\Temp\\TfsStore\\Tfs_DAV\\* AND (TargetFilename:(*.7z
+        OR *.bat OR *.dat OR *.ico OR *.js OR *.lnk OR *.ps1 OR *.rar OR *.vbe OR
+        *.vbs OR *.zip))
+index: 'winlogbeat-*'
+name: WebDAV Temporary Local File Creation
+priority: 2
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

@@ -1,0 +1,18 @@
+description: 'Detects attempts to access the "unattend.xml" file, where credentials
+  might be stored.
+
+  This file is used during the unattended windows install process.
+
+  '
+filter:
+- query:
+    query_string:
+      query: FileName:*\\Panther\\unattend.xml
+index: 'winlogbeat-*'
+name: Unattend.XML File Access Attempt
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

@@ -1,0 +1,16 @@
+description: Detects any process, file, or message referencing Spotify using Sysmon
+  data.
+filter:
+- query:
+    query_string:
+      query: winlog.event_data.Image:*spotify* AND winlog.event_data.TargetFilename:*spotify*
+        AND winlog.event_data.Description:*spotify* AND winlog.event_data.Company:*spotify*
+        AND winlog.event_data.CommandLine:*spotify* AND winlog.event_data.ParentImage:*spotify*
+        AND winlog.event_data.Message:*spotify*
+index: '*'
+name: Detect Spotify Process or File via Sysmon
+priority: 1
+type: any
+alert:
+- email
+email: <email_that_receives_the_alert>

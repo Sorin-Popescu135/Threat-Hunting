@@ -1,0 +1,17 @@
+description: 'Detects the creation of a file with the name "code_tunnel.json" which
+  indicate execution and usage of VsCode tunneling utility. Attackers can abuse this
+  functionality to establish a C2 channel
+
+  '
+filter:
+- query:
+    query_string:
+      query: TargetFilename:*\\code_tunnel.json
+index: 'winlogbeat-*'
+name: VsCode Code Tunnel Execution File Indicator
+priority: 2
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

@@ -1,0 +1,27 @@
+description: 'Detects file access requests to browser credential stores by uncommon
+  processes.
+
+  Could indicate potential attempt of credential stealing.
+
+  Requires heavy baselining before usage
+
+  '
+filter:
+- query:
+    query_string:
+      query: (FileName:*\\Appdata\\Local\\Microsoft\\Windows\\WebCache\\WebCacheV01.dat
+        OR (FileName:(*\\cookies.sqlite OR *\\places.sqlite OR *release\\key3.db OR
+        *release\\key4.db OR *release\\logins.json)) OR (FileName:(*\\User\ Data\\Default\\Login\
+        Data* OR *\\User\ Data\\Local\ State*))) AND (NOT (Image:System OR (Image:(C\:\\Program\
+        Files\ \(x86\)\\* OR C\:\\Program\ Files\\* OR C\:\\Windows\\system32\\* OR
+        C\:\\Windows\\SysWOW64\\*)))) AND (NOT ((Image:C\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\* AND (Image:(*\\MpCopyAccelerator.exe OR *\\MsMpEng.exe))) OR (Image:(*\\thor.exe
+        OR *\\thor64.exe))))
+index: 'winlogbeat-*'
+name: Access To Browser Credential Files By Uncommon Applications
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

@@ -1,0 +1,23 @@
+description: 'Detects file access requests to chromium based browser sensitive files
+  by uncommon processes.
+
+  Could indicate potential attempt of stealing sensitive information.
+
+  '
+filter:
+- query:
+    query_string:
+      query: (FileName:(*\\User\ Data\\Default\\Cookies* OR *\\User\ Data\\Default\\History*
+        OR *\\User\ Data\\Default\\Network\\Cookies* OR *\\User\ Data\\Default\\Web\
+        Data*)) AND (NOT (Image:System OR (Image:(C\:\\Program\ Files\ \(x86\)\\*
+        OR C\:\\Program\ Files\\* OR C\:\\Windows\\system32\\* OR C\:\\Windows\\SysWOW64\\*))))
+        AND (NOT (Image:C\:\\ProgramData\\Microsoft\\Windows\ Defender\\* AND (Image:(*\\MpCopyAccelerator.exe
+        OR *\\MsMpEng.exe))))
+index: 'winlogbeat-*'
+name: Access To Chromium Browsers Sensitive Files By Uncommon Applications
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

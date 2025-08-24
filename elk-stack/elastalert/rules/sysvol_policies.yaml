@@ -1,0 +1,16 @@
+description: Detects file access requests to the Windows Sysvol Policies Share by
+  uncommon processes
+filter:
+- query:
+    query_string:
+      query: (FileName:\\* AND (FileName:*\\sysvol\\* AND FileName:*\\Policies\\*))
+        AND (NOT (Image:(*\:\\Program\ Files\ \(x86\)\\* OR *\:\\Program\ Files\\*
+        OR *\:\\Windows\\explorer.exe* OR *\:\\Windows\\system32\\* OR *\:\\Windows\\SysWOW64\\*)))
+index: 'winlogbeat-*'
+name: Access To Sysvol Policies Share By Uncommon Process
+priority: 2
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

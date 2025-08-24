@@ -1,0 +1,15 @@
+description: Detects file access requests to files ending with either the ".hive"/".reg"
+  extension, usually associated with Windows Registry backups.
+filter:
+- query:
+    query_string:
+      query: (FileName:(*.hive OR *.reg)) AND (NOT (Image:(C\:\\Program\ Files\ \(x86\)\\*
+        OR C\:\\Program\ Files\\* OR C\:\\Windows\\System32\\* OR C\:\\Windows\\SysWOW64\\*)))
+index: 'winlogbeat-*'
+name: Access To .Reg/.Hive Files By Uncommon Applications
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

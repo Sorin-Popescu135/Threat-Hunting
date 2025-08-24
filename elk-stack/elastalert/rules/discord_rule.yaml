@@ -1,0 +1,12 @@
+name: Any Log Referencing Discord
+type: any
+index: 'winlogbeat-*'
+filter:
+- query:
+    query_string:
+      query: winlog.event_data.Image:*discord* OR winlog.event_data.TargetFilename:*discord* OR winlog.event_data.User:*discord* OR message:*discord*
+alert:
+- email
+email: <email_that_receives_the_alert>
+description: Detects any log where "discord" appears in process image, target filename, user, or message fields.
+priority: 0

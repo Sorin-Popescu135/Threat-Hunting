@@ -1,0 +1,37 @@
+description: Detects the creation of an executable by another executable.
+filter:
+- query:
+    query_string:
+      query: (Image:*.exe AND TargetFilename:*.exe) AND (NOT ((Image:(*\:\\Windows\\System32\\msiexec.exe
+        OR *\:\\Windows\\system32\\cleanmgr.exe OR *\:\\Windows\\explorer.exe OR *\:\\WINDOWS\\system32\\dxgiadaptercache.exe
+        OR *\:\\WINDOWS\\system32\\Dism.exe OR *\:\\Windows\\System32\\wuauclt.exe))
+        OR (Image:*\:\\WINDOWS\\system32\\svchost.exe AND TargetFilename:*\:\\Windows\\SoftwareDistribution\\Download\\*)
+        OR (Image:*\:\\Windows\\system32\\svchost.exe AND (TargetFilename:*\:\\WUDownloadCache\\*
+        AND TargetFilename:*\\WindowsUpdateBox.exe*)) OR (Image:*\:\\WINDOWS\\SoftwareDistribution\\Download\\*
+        AND Image:*\\WindowsUpdateBox.Exe AND TargetFilename:*\:\\$WINDOWS.\~BT\\Sources\\*)
+        OR (Image:*\:\\Windows\\WinSxS\\* AND Image:*\\TiWorker.exe) OR ((Image:(*\:\\Program\
+        Files\\* OR *\:\\Program\ Files\ \(x86\)\\*)) OR (TargetFilename:(*\:\\Program\
+        Files\\* OR *\:\\Program\ Files\ \(x86\)\\*))) OR (Image:(*\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\* OR *\:\\Program\ Files\\Windows\ Defender\\*)) OR TargetFilename:*\\AppData\\Local\\Microsoft\\WindowsApps\\*
+        OR (Image:*\\AppData\\Local\\Microsoft\\Teams\\Update.exe AND (TargetFilename:(*\\AppData\\Local\\Microsoft\\Teams\\stage\\Teams.exe
+        OR *\\AppData\\Local\\Microsoft\\Teams\\stage\\Squirrel.exe OR *\\AppData\\Local\\Microsoft\\SquirrelTemp\\tempb\\)))
+        OR ((Image:(*\:\\Windows\\Microsoft.NET\\Framework\\* OR *\:\\Windows\\Microsoft.NET\\Framework64\\*
+        OR *\:\\Windows\\Microsoft.NET\\FrameworkArm\\* OR *\:\\Windows\\Microsoft.NET\\FrameworkArm64\\*))
+        AND Image:*\\mscorsvw.exe AND TargetFilename:*\:\\Windows\\assembly\\NativeImages_*)
+        OR (Image:*\\AppData\\Local\\* AND Image:*\\Microsoft\ VS\ Code\\Code.exe
+        AND TargetFilename:*\\.vscode\\extensions\\*) OR (Image:*\\AppData\\Local\\GitHubDesktop\\Update.exe
+        AND TargetFilename:*\\AppData\\Local\\SquirrelTemp\\*) OR (Image:*\:\\WINDOWS\\TEMP\\*
+        OR TargetFilename:*\:\\WINDOWS\\TEMP\\*) OR (Image:*\\AppData\\Local\\Temp\\*
+        OR TargetFilename:*\\AppData\\Local\\Temp\\*) OR (Image:*\:\\Windows\\Microsoft.NET\\Framework*
+        AND Image:*\\mscorsvw.exe AND TargetFilename:*\:\\Windows\\assembly*))) AND
+        (NOT ((Image:*\\Python27\\python.exe* AND (TargetFilename:(*\\Python27\\Lib\\site\-packages\\*
+        OR *\\Python27\\Scripts\\* OR *\\AppData\\Local\\Temp\\*))) OR (Image:*\\AppData\\Local\\SquirrelTemp\\Update.exe*
+        AND TargetFilename:*\\AppData\\Local*) OR (Image:*\\ChromeSetup.exe AND TargetFilename:*\\Google*)))
+index: 'winlogbeat-*'
+name: Creation of an Executable by an Executable
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

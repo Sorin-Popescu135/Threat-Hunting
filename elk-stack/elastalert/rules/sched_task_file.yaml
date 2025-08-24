@@ -1,0 +1,14 @@
+description: Detects the creation of a scheduled task via file creation.
+filter:
+- query:
+    query_string:
+      query: TargetFilename:(*\:\\Windows\\System32\\Tasks\\* OR *\:\\Windows\\SysWOW64\\Tasks\\*
+        OR *\:\\Windows\\Tasks\\*)
+index: 'winlogbeat-*'
+name: Scheduled Task Created - FileCreation
+priority: 1
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

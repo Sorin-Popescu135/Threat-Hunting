@@ -1,0 +1,12 @@
+name: Any Log Referencing YouTube
+type: any
+index: 'winlogbeat-*'
+filter:
+- query:
+    query_string:
+      query: winlog.event_data.Image:*youtube* OR winlog.event_data.TargetFilename:*youtube* OR winlog.event_data.User:*youtube* OR winlog.event_data.CommandLine:*youtube* OR message:*youtube*
+alert:
+- email
+email: <email_that_receives_the_alert>
+description: Detects any log where "youtube" appears in process image, target filename, user, command line, or message fields.
+priority: 0

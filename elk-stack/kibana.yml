@@ -1,0 +1,18 @@
+# Kibana configuration file
+
+# The server's hostname or IP address
+server.host: "0.0.0.0"
+
+# The URL of the Elasticsearch instance to use for all your queries.
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+
+# Elasticsearch username and password built into your stack
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "<your_kibana_password>"
+
+# Encryption key for Encrypted Saved Objects (must be at least 32 characters)
+# Received when first launched Kibana, or you can use a command to generate a new one.
+xpack.encryptedSavedObjects.encryptionKey: "<your_token>"
+
+# Uncomment the following for troubleshooting (optional)
+# logging.verbose: true

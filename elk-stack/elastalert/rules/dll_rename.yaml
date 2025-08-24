@@ -1,0 +1,21 @@
+description: 'Detects rename operations of files with non-DLL extensions to files
+  with a DLL extension. This is often performed by malware in order to avoid initial
+  detections based on extensions.
+
+  '
+filter:
+- query:
+    query_string:
+      query: TargetFilename:*.dll AND (NOT (SourceFilename:*.dll OR SourceFilename:*.tmp
+        OR SourceFilename:"" OR (NOT _exists_:SourceFilename) OR (Image:*\:\\Windows\\WinSxS\\*
+        AND Image:*\\TiWorker.exe) OR (Image:*\:\\Windows\\System32\\wuauclt.exe OR
+        TargetFilename:*\:\\$WINDOWS.\~BT\\Sources\\*) OR (Image:(*\:\\Program\ Files\
+        \(x86\)\\* OR *\:\\Program\ Files\\*)))) AND (NOT SourceFilename:*\\SquirrelTemp\\temp*)
+index: 'winlogbeat-*'
+name: Non-DLL Extension File Renamed With DLL Extension
+priority: 2
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>

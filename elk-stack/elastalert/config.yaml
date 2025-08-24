@@ -1,0 +1,19 @@
+es_host: elasticsearch
+es_port: 9200
+#use_ssl: true         # true if using HTTPS
+#verify_certs: true   # false for self-signed certs
+#ca_certs: "C:/Program Files/ELK/elasticsearch-9.1.0/config/certs/http_ca.crt"
+es_username: "elastic"    # if using authentication
+es_password: <"your_elasticsearch_password">
+
+writeback_index: elastalert_status
+buffer_time:
+  minutes: 15
+run_every:
+  minutes: 1
+rules_folder: /opt/elastalert/rules    # folder where your rule files live
+
+smtp_host: smtp.gmail.com
+smtp_port: 587
+from_addr: <email address that sends the alert emails>
+smtp_auth_file: /opt/elastalert/smtp_auth.yaml

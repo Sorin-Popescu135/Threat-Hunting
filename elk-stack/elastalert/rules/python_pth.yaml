@@ -1,0 +1,24 @@
+description: 'Detects creation of a Python path configuration file (.pth) in Python
+  library folders, which can be maliciously abused for code execution and persistence.
+
+  Modules referenced by these files are run at every Python startup (v3.5+), regardless
+  of whether the module is imported by the calling script.
+
+  Default paths are ''\lib\site-packages\*.pth'' (Windows) and ''/lib/pythonX.Y/site-packages/*.pth''
+  (Unix and macOS).
+
+  '
+filter:
+- query:
+    query_string:
+      query: (TargetFilename:/(?i)\\(venv|python(.+)?)\\lib\\site-packages\\/ AND
+        TargetFilename:*.pth) AND (NOT (Image:*\\python.exe AND (TargetFilename:(*\\pywin32.pth
+        OR *\\distutils\-precedence.pth))))
+index: 'winlogbeat-*'
+name: Python Path Configuration File Creation - Windows
+priority: 2
+type: any
+
+alert:
+- email
+email: <email_that_receives_the_alert>
